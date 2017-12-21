@@ -15,9 +15,10 @@ function outer() {
   another variable called 'inner'. */
   
   // Code Here
+  var inner = outer();
   
   //Once you do that, invoke inner.
-  
+  inner();
   //Code Here
   
   
@@ -51,7 +52,8 @@ function outer() {
   */
   
     //Code Here
-  
+  var callJake = callFriend('Jake');
+  callJake('35-555-9248')
   
   
   
@@ -69,13 +71,17 @@ function outer() {
   properly. */
   
   //Code Here
-  
+  function makeCounter(){
+    var num =0;
+    return _=> ++num;
+  }
+
   //Uncomment this once you make your function
-  //   var count = makeCounter();
-  //   count(); // 1
-  //   count(); // 2
-  //   count(); // 3
-  //   count(); // 4
+    var count = makeCounter();
+    count(); // 1
+    count(); // 2
+    count(); // 3
+    count(); // 4
   
   
   
@@ -100,22 +106,20 @@ function outer() {
   http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-example?answertab=votes#tab-top
   */
   
-  function counterFactory(value) {
-  
-    // Code here.
-  
-  
-    return {
+  function counterFactory(num) {
 
+    return {
+      inc: _=> ++num,
+      dec: _=> --num
     }
   }
   
   
   counter = counterFactory(10);
-  // counter.inc() // 11
-  // counter.inc() // 12
-  // counter.inc() // 13
-  // counter.dec() // 12
+  counter.inc() // 11
+  counter.inc() // 12
+  counter.inc() // 13
+  counter.dec() // 12
   
   
   
@@ -142,10 +146,12 @@ function outer() {
     var welcomeText = 'You\'re doing awesome, keep it up ';
   
     // code message function here.
-  
+  function message(){
+    return `${welcomeText}${firstname} ${lastname}.`
+  }
   
     //Uncommment this to return the value of your message function
-    //return message;
+    return message;
   
   }
   
@@ -180,10 +186,13 @@ function outer() {
       return "Hi, I'm " + person.name + ", age " + person.age + " from " + person.location;
     }
   
+    
     // Anything that is being returned is made public and can be invoked from
     // outside our lexical scope
     return {
       // Code here.
+      publicMethod: _=> privateMethod()
+      
     };
   
   })();
@@ -196,13 +205,16 @@ function outer() {
 
   /****** INSTRUCTIONS PROBLEM 7 ******/
   /* Here we have a function named secretNumber that has a secret number. Inside
-  the return object, create two methods called addToSecret and takeAwayFromSecret. addToSecret should have a parameter that is added to the secret number returning the updated secret number. takeAwayFromSecret should have a parameter that takes away from the secret number returning the updated secret number. */
+  the return object, create two methods called addToSecret and takeAwayFromSecret. 
+  addToSecret should have a parameter that is added to the secret number returning the updated secret number. 
+  takeAwayFromSecret should have a parameter that takes away from the secret number returning the updated secret number. */
 
   function secretNumber() {
     var secret = 143;
 
     return {
-      // Code here
+      addToSecret: n=>secret += n,
+      takeAwayFromSecret:(n)=>secret -= n
     }
   }
   
@@ -228,12 +240,26 @@ function outer() {
    Fix the code below to log the desired output.
    */
   
+  // function timeOutCounter() {
+  //   var cl = j => setTimeout(_=>console.log(j), j * 1000)
+  //   for (var i = 0; i <= 5; i++) {
+  //     cl(i)
+  //   }
+  // }
+
   function timeOutCounter() {
-    for (var i = 0; i <= 5; i++) {
-      setTimeout(function() {
-          console.log(i)
-      }, i * 1000)
+   
+    var closure = function(j) {
+      setTimeout(_=>console.log(j), j * 1000);
+    };
+ 
+    function timeOutCounter() {
+      for (var i=0; i <= 5; i++){
+        closure(i)
+      }
     }
+ 
+    timeOutCounter();
   }
-  timeOutCounter();
+
   
